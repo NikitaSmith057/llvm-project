@@ -43,6 +43,11 @@ unsigned X86WinCOFFObjectWriter::getRelocType(MCContext &Ctx,
                                               const MCFixup &Fixup,
                                               bool IsCrossSection,
                                               const MCAsmBackend &MAB) const {
+  auto Specifier = X86MCExpr::Specifier(Target.getSpecifier());
+  if (Specifier == X86MCExpr::VK_DTPOFF) {
+    return COFF::IMAGE_REL_AMD64_SECREL;
+  }
+
   const bool Is64Bit = getMachine() == COFF::IMAGE_FILE_MACHINE_AMD64;
   unsigned FixupKind = Fixup.getKind();
   bool PCRel = Fixup.isPCRel();

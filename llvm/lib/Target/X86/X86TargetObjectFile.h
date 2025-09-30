@@ -58,6 +58,12 @@ namespace llvm {
                               MCStreamer &Streamer) const override;
   };
 
+  class X86_64COFFTargetObjectFile : public TargetLoweringObjectFileCOFF {
+  public:
+    X86_64COFFTargetObjectFile() = default;
+    /// Describe a TLS variable address within debug info.
+    const MCExpr *getDebugThreadLocalSymbol(const MCSymbol *Sym) const override;
+  };
 } // end namespace llvm
 
 #endif
